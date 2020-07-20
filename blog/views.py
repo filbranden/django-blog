@@ -1,6 +1,12 @@
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template import loader
 
-# Create your views here.
+from .models import Post
+
 def index(request):
-    return HttpResponse("Hello, world. You're at the blog index.")
+    context = {
+        'posts': Post.objects.all(),
+    }
+    template = loader.get_template("blog/index.html")
+    return HttpResponse(template.render(context, request))
